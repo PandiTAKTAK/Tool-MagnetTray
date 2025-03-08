@@ -1,6 +1,6 @@
 /* [Tray] */
 // X (mm)
-TrayWidth = 50;
+TrayWidth = 100;
 // Y (mm)
 TrayLength = 50;
 // Z (mm)
@@ -57,4 +57,10 @@ module RoundedCornerSquareTrayWithMagnets()
    }
 }
 
-RoundedCornerSquareTrayWithMagnets();
+difference()
+{
+   RoundedCornerSquareTrayWithMagnets();
+   translate([32,7,TrayThickness - 0.4])
+      linear_extrude(height = 4)
+         import("./_media/OBC.svg");
+}
