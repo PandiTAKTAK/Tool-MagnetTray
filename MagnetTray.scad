@@ -20,6 +20,24 @@ MagnetOffset = 10;
 // Include centre magnet?
 Centre="Y"; // [Y:Yes, N:No]
 
+/* [Cover] */
+// Generate Cover?
+Cover="N"; // [Y:Yes, N:No]
+// Cover Slop (mm)
+CoverSlop = 0.1;
+
+/* [Logo] */
+// Add logo?
+Logo="N"; // [Y:Yes, N:No]
+// Logo SVG
+LogoFile = "./_media/OBC.svg";
+// Logo X
+LogoX=7;
+// Logo Y
+LogoY=7;
+// Logo Depth
+LogoDepth=0.4;
+
 // ###########################################
 
 /* [Hidden] */
@@ -35,7 +53,7 @@ module RoundedCornerSquareTrayWithMagnets()
    difference()
    {
       // Base tray
-      RoundedCornerSquareTray();
+      RoundedCornerSquareTray(TrayWidth, TrayLength, TrayHeight, CornerRadius);
         
       // Add corner magnets
       for (x = [MagnetOffset, TrayWidth - MagnetOffset], y = [MagnetOffset, TrayLength - MagnetOffset])
@@ -57,4 +75,41 @@ module RoundedCornerSquareTrayWithMagnets()
    }
 }
 
-RoundedCornerSquareTrayWithMagnets();
+module Cover()
+{
+   CoverWidth = TrayWidth + (TrayThickness * 2) + CoverSlop;
+   CoverLength = TrayLength + (TrayThickness * 2) + CoverSlop;
+   CoverHeight = TrayHeight + TrayThickness + (CoverSlop / 2);
+   
+   rotate([0, 180, 0])
+       translate([-CoverWidth + (CoverSlop / 2) + TrayThickness,0 - TrayThickness - (CoverSlop / 2), -TrayHeight - TrayThickness - CoverSlop])
+         RoundedCornerSquareTray(CoverWidth, CoverLength, CoverHeight, CornerRadius);
+
+}
+
+if( Cover == "Y" )
+{
+   difference()
+   {
+      Cover();
+      if (Logo == "Y")
+      {
+         translate([LogoX,LogoY,TrayHeight + CoverSlop - RenderCludge])
+            linear_extrude(height = 4)
+               import(LogoFile);
+      }
+   }
+}
+else
+{
+   difference()
+   {
+      RoundedCornerSquareTrayWithMagnets();
+      if (Logo == "Y")
+      {
+         translate([LogoX,LogoY,TrayThickness - LogoDepth])
+            linear_extrude(height = 4)
+               import(LogoFile);
+      }
+   }
+}
