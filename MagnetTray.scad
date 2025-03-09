@@ -24,7 +24,7 @@ Centre="Y"; // [Y:Yes, N:No]
 // Generate Cover?
 Cover="N"; // [Y:Yes, N:No]
 // Cover Slop (mm)
-CoverSlop = 0.3;
+CoverSlop = 0.1;
 
 /* [Logo] */
 // Add logo?
