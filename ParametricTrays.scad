@@ -40,7 +40,7 @@ module RoundedCornerVolume(Width, Length, Height, CornerRadius) {
     }
 }
 
-module RoundedCornerSquareTray() {
+module RoundedCornerSquareTray(TrayWidth, TrayLength, TrayHeight, CornerRadius) {
     difference() {
         RoundedCornerVolume(TrayWidth, TrayLength, TrayHeight, CornerRadius);
         translate([TrayThickness, TrayThickness, TrayThickness ]) RoundedCornerVolume(TrayWidth - 2 * TrayThickness, TrayLength - 2 * TrayThickness, TrayHeight - TrayThickness, CornerRadius);
