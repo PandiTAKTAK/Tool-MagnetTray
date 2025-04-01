@@ -23,6 +23,8 @@ Centre="Y"; // [Y:Yes, N:No]
 /* [Cover] */
 // Generate Cover?
 Cover="N"; // [Y:Yes, N:No]
+// Generate Finger Grips?
+FingerGrips="Y"; // [Y:Yes, N:No]
 // Cover Slop (mm)
 CoverSlop = 0.1;
 
@@ -89,14 +91,24 @@ module Cover()
 
 if( Cover == "Y" )
 {
-   difference()
+   difference() //
    {
-      Cover();
-      if (Logo == "Y")
+      difference()
       {
-         translate([LogoX,LogoY,TrayHeight + CoverSlop - RenderCludge])
-            linear_extrude(height = 4)
-               import(LogoFile);
+         Cover();
+         if (Logo == "Y")
+         {
+            translate([LogoX,LogoY,TrayHeight + CoverSlop - RenderCludge])
+               linear_extrude(height = 4)
+                  import(LogoFile);
+         }
+      }
+      
+      if (FingerGrips == "Y")
+      {
+         rotate([0, 90, 0])
+            translate([0,TrayLength/2, -TrayWidth/2])
+               cylinder(h = TrayWidth * 2, d = TrayHeight*2);
       }
    }
 }
